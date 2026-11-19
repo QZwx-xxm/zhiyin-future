@@ -95,11 +95,24 @@ npx prisma generate && npx prisma db push && npm run db:seed
 | `DEEPSEEK_API_KEY` | 否 | 不填时自动使用本地规则引擎 |
 | `DEEPSEEK_BASE_URL` | 否 | 默认 `https://api.deepseek.com` |
 | `VITE_ZHIPU_API_KEY` | 否 | 视频模拟面试用；也可以在页面里临时填写 |
-| `PORT` | 否 | 生产模式端口，默认 3001；`npm run serve` 脚本里用 8080 |
+| `PORT` | 否 | 开发模式默认 3001；`npm run serve` 默认 8080 |
 
 > 仓库中不包含 `.env`、数据库文件和任何密钥，请按 `.env.example` 自行配置。
 
-## 六、演示账号
+## 六、Windows 一键启动 / 停止
+
+项目注册了两个"登录时自动启动"的计划任务，开机登录后服务自动拉起：
+
+| 计划任务 | 作用 |
+|---|---|
+| `ZhiyinMySQL` | 项目专用 MySQL 实例（127.0.0.1:3307） |
+| `ZhiyinWeb` | 网站服务（http://localhost:8080） |
+
+也可以手动控制：双击 `启动服务器.bat` / `停止服务器.bat`。
+
+> 这两个脚本和任务只针对 Windows 本机部署；其他系统按"快速开始"手动启动即可。
+
+## 七、演示账号
 
 | 角色 | 邮箱 | 密码 |
 |---|---|---|
@@ -108,7 +121,7 @@ npx prisma generate && npx prisma db push && npm run db:seed
 
 （执行 `npm run db:seed` 后生成；也可以直接在登录页注册新账号。）
 
-## 七、局域网访问（把自己的电脑当服务器）
+## 八、局域网访问（把自己的电脑当服务器）
 
 ```bash
 npm run serve
@@ -123,7 +136,7 @@ npm run serve
 
 同一 Wi-Fi 下的手机 / 其他电脑用第二个地址即可访问。若要公网访问，需要额外做内网穿透（如 cloudflared）或部署到云服务器。
 
-## 八、常见问题
+## 九、常见问题
 
 **1. `prisma generate` 报 EPERM / 文件被占用**
 先停掉正在运行的 `node` 进程（占用 Prisma 引擎 DLL），再重新生成。
@@ -137,7 +150,7 @@ npm run serve
 **4. 页面白屏**
 打开浏览器控制台看第一条红色报错；常见原因是后端未启动（`/api` 请求失败）。
 
-## 九、团队
+## 十、团队
 
 - 宁夏大学 · 职在必得队
 - 队长：丁希妍　队员：张宁　指导教师：吴笑江
