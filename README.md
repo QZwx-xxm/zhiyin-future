@@ -119,7 +119,6 @@ npx prisma generate && npx prisma db push && npm run db:seed
 | 学生 | `student@demo.local` | `123456` |
 | 教师 | `teacher@demo.local` | `123456` |
 
-（执行 `npm run db:seed` 后生成；也可以直接在登录页注册新账号。）
 
 ## 八、局域网访问（把自己的电脑当服务器）
 
@@ -152,5 +151,5 @@ npm run serve
 
 ## 十、团队
 
-- 宁夏大学 · 职在必得队
-- 队长：丁希妍　队员：张宁　指导教师：吴笑江
+- 宁夏大学 · 职引未来队
+- 队长：丁希妍　队员：张宁，白晶晶　指导教师：贾志贤，吴华庭
