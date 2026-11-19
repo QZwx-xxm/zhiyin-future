@@ -1,0 +1,26 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
+# 环境变量（含数据库密码，绝对不能提交）
+.env
+.env.*
+!.env.example
+
+# 本地数据库与备份
+prisma/dev.db
+prisma/dev.db-journal
+prisma/*.bak
+mysql-data/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

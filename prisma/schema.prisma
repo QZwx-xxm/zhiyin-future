@@ -1,0 +1,143 @@
+// MySQL 版本的数据模型（切换数据库时会被拷贝成 prisma/schema.prisma）
+// 相比 SQLite 版：长文本字段显式声明 @db.LongText，避免被截断成 VARCHAR(191)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String              @id @default(cuid())
+  name              String
+  role              String
+  school            String?
+  major             String?
+  targetRole        String?
+  email             String?             @unique
+  passwordHash      String?
+  phone             String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  resume            Resume?
+  resumeAnalyses    ResumeAnalysis[]
+  jobAnalyses       JobAnalysis[]
+  sharePosts        SharePost[]
+  discussionPosts   DiscussionPost[]
+  discussionReplies DiscussionReply[]
+}
+
+model Resume {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  content        String   @db.LongText
+  structuredJson String?  @db.LongText
+  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ResumeAnalysis {
+  id               String   @id @default(cuid())
+  userId           String
+  resumeContent    String   @db.LongText
+  score            Int
+  completenessJson String   @db.LongText
+  issuesJson       String   @db.LongText
+  keywordJson      String   @db.LongText
+  fitJson          String   @db.LongText
+  strengthsJson    String   @db.LongText
+  createdAt        DateTime @default(now())
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model JobAnalysis {
+  id                 String   @id @default(cuid())
+  userId             String
+  jobName            String
+  jobDescription     String   @db.LongText
+  score              Int
+  keywordsJson       String   @db.LongText
+  strengthsJson      String   @db.LongText
+  gapsJson           String   @db.LongText
+  deliveryAdviceJson String   @db.LongText
+  directionsJson     String   @db.LongText
+  createdAt          DateTime @default(now())
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SharePost {
+  id         String        @id @default(cuid())
+  authorId   String
+  title      String
+  excerpt    String
+  content    String        @db.LongText
+  category   String
+  likes      Int           @default(0)
+  views      Int           @default(0)
+  favorites  Int           @default(0)
+  isHot      Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  author     User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  tags       SharePostTag[]
+}
+
+model ShareTag {
+  id    String        @id @default(cuid())
+  name  String        @unique
+  posts SharePostTag[]
+}
+
+model SharePostTag {
+  postId String
+  tagId  String
+  post   SharePost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    ShareTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+model DiscussionPost {
+  id        String              @id @default(cuid())
+  authorId  String
+  title     String
+  content   String              @db.LongText
+  category  String
+  status    String              @default("讨论中")
+  views     Int                 @default(0)
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+  author    User                @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  replies   DiscussionReply[]
+  tags      DiscussionPostTag[]
+}
+
+model DiscussionTag {
+  id    String              @id @default(cuid())
+  name  String              @unique
+  posts DiscussionPostTag[]
+}
+
+model DiscussionPostTag {
+  postId String
+  tagId  String
+  post   DiscussionPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    DiscussionTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+model DiscussionReply {
+  id        String         @id @default(cuid())
+  postId    String
+  authorId  String
+  content   String         @db.LongText
+  likes     Int            @default(0)
+  createdAt DateTime       @default(now())
+  post      DiscussionPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
