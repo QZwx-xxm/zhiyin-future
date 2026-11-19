@@ -59,9 +59,10 @@
 # 1. 安装依赖
 npm install
 
-# 2. 配置环境变量（Windows 下可复制 .env.example 为 .env）
+# 2. 准备数据库（MySQL）
+#    先建库：CREATE DATABASE career_ai CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+#    再复制配置并填写 DATABASE_URL
 cp .env.example .env
-# 编辑 .env，把 DATABASE_URL 改成你自己的数据库
 
 # 3. 生成 Prisma 客户端并建表
 npx prisma generate
