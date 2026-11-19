@@ -6,7 +6,9 @@ import { authRouter } from "./routes/auth.ts";
 import { appRouter } from "./routes/app.ts";
 
 const app = express();
-const port = Number(process.env.PORT || 3001);
+// 生产模式（npm run serve 会带 --serve）默认 8080，开发模式默认 3001
+const isServeMode = process.argv.includes("--serve");
+const port = Number(process.env.PORT || (isServeMode ? 8080 : 3001));
 
 app.use(cors());
 app.use(express.json({ limit: "1mb" }));

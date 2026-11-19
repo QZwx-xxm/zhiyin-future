@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "career-future-prototype",
   "private": true,
   "version": "0.1.0",
@@ -9,7 +9,7 @@
     "dev:api": "node server/index.ts",
     "build": "tsc -b && vite build",
     "start": "node server/index.ts",
-    "serve": "npm run build && node server/index.ts",
+    "serve": "npm run build && node server/index.ts --serve",
     "preview": "vite preview",
     "db:generate": "prisma generate",
     "db:init": "node prisma/init.ts",
